@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using basic_auth.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace basic_auth.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+
+        public HomeController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public IActionResult Index()
@@ -24,27 +32,68 @@ namespace basic_auth.Controllers
             return View();
         }
 
-        public IActionResult Authenticate()
+        public IActionResult Login()
         {
-            var grandmaClaims = new List<Claim>()
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(string userName, string password)
+        {
+            // Login functionality
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
             {
-                new Claim(ClaimTypes.Name, "Bob"),
-                new Claim(ClaimTypes.Email, "bob@gmail.com"),
-                new Claim("Grandma.Says", "Very nice boi.")
+                return NotFound();
+            }
+
+            // Sign user here
+            var signInResult = await _signInManager.PasswordSignInAsync(user, password, false, false);
+
+            if (!signInResult.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(string userName, string password)
+        {
+            var user = new IdentityUser
+            {
+                UserName = userName,
+                Email = ""
             };
 
-            var licenseClaims = new List<Claim>()
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (!result.Succeeded)
             {
-                new Claim(ClaimTypes.Name, "Bob"),
-                new Claim("Driving License", "A+")
-            };
+                return UnprocessableEntity();
+            }
 
-            var grandmaIdentity = new ClaimsIdentity(grandmaClaims, "Grandma Identity");
-            var licenseIdentity = new ClaimsIdentity(licenseClaims, "License Identity");
+            // Sign user here
+            var signInResult = await _signInManager.PasswordSignInAsync(user, password, false, false);
 
-            var userPrinciple = new ClaimsPrincipal(new[] { grandmaIdentity, licenseIdentity });
+            if (!signInResult.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
 
-            HttpContext.SignInAsync(userPrinciple);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index");
         }

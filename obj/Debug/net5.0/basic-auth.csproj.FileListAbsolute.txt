@@ -35,3 +35,16 @@
 /Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/obj/Debug/net5.0/ref/basic-auth.dll
 /Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/obj/Debug/net5.0/basic-auth.pdb
 /Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/obj/Debug/net5.0/basic-auth.genruntimeconfig.cache
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/Microsoft.EntityFrameworkCore.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/Microsoft.EntityFrameworkCore.InMemory.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/Microsoft.EntityFrameworkCore.Relational.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/Microsoft.Extensions.DependencyInjection.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/Microsoft.Extensions.Identity.Core.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/Microsoft.Extensions.Identity.Stores.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/System.Diagnostics.DiagnosticSource.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/obj/Debug/net5.0/Razor/Views/Home/Login.cshtml.g.cs
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/obj/Debug/net5.0/Razor/Views/Home/Register.cshtml.g.cs
