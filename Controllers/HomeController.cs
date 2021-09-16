@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using basic_auth.Data;
+using basic_auth.Data.Enum;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,19 +14,8 @@ namespace basic_auth.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IEmailService _emailService;
-
-        public HomeController(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IEmailService emailService
-        )
+        public HomeController()
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -39,92 +29,41 @@ namespace basic_auth.Controllers
             return View();
         }
 
-        public IActionResult Login()
+        [Authorize(Policy = "Claim.DoB")]
+        public IActionResult SecretPolicy()
         {
-            return View();
+            return View("Secret");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(string userName, string password)
+        [Authorize(Roles = "Admin")]
+        public IActionResult SecretRole()
         {
-            // Login functionality
-            var user = await _userManager.FindByNameAsync(userName);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            // Sign user here
-            var signInResult = await _signInManager.PasswordSignInAsync(user, password, false, false);
-
-            if (!signInResult.Succeeded)
-            {
-                return RedirectToAction("Index");
-            }
-
-            return RedirectToAction("Index");
+            return View("Secret");
         }
 
-        public IActionResult Register()
+        public IActionResult Authenticate()
         {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(string userName, string password)
-        {
-            var user = new IdentityUser
+            var grandmaClaims = new List<Claim>()
             {
-                UserName = userName,
-                Email = ""
+                new Claim(ClaimTypes.Name, "Bob"),
+                new Claim(ClaimTypes.Email, "bob@gmail.com"),
+                new Claim("Grandma.Says", "Very nice boi."),
+                new Claim(ClaimTypes.DateOfBirth, "01/01/2000"),
+                new Claim(ClaimTypes.Role, "Admin")
             };
 
-            var result = await _userManager.CreateAsync(user, password);
-
-            if (!result.Succeeded)
+            var licenseClaims = new List<Claim>()
             {
-                return UnprocessableEntity();
-            }
+                new Claim(ClaimTypes.Name, "Bob"),
+                new Claim("Driving License", "A+")
+            };
 
-            // Generate the e-mail token
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var grandmaIdentity = new ClaimsIdentity(grandmaClaims, "Grandma Identity");
+            var licenseIdentity = new ClaimsIdentity(licenseClaims, "License Identity");
 
-            var link = Url.Action(nameof(VerifyEmail), "Home", new { userId = user.Id, code }, Request.Scheme, Request.Host.ToString());
-            var linkString = $"<a href=\"{link}\">Verify Email</a>";
+            var userPrinciple = new ClaimsPrincipal(new[] { grandmaIdentity, licenseIdentity });
 
-            try
-            {
-                await _emailService.SendAsync("recipient@dotnet-basic-auth.com", "Email Verification", linkString, true);
-
-                return RedirectToAction("EmailVerification");
-            }
-            catch (Exception e)
-            {
-                return RedirectToAction("Index");
-            }
-        }
-
-        public IActionResult EmailVerification() => View();
-
-        public async Task<IActionResult> VerifyEmail(string userId, string code)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-
-            if (user == null)
-                return NotFound();
-
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-
-            if (!result.Succeeded)
-                return UnprocessableEntity();
-
-            return View();
-        }
-
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
+            HttpContext.SignInAsync(userPrinciple);
 
             return RedirectToAction("Index");
         }

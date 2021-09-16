@@ -2,18 +2,22 @@
   <MonoDevelop.Ide.ItemProperties.basic-auth PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/HomeController.cs">
     <Files>
-      <File FileName="Controllers/HomeController.cs" Line="97" Column="110" />
-      <File FileName="Startup.cs" Line="51" Column="14" />
+      <File FileName="Startup.cs" Line="73" Column="44" />
+      <File FileName="AuthorizationRequirements/CustomRequireClaim.cs" Line="33" Column="17" />
+      <File FileName="Controllers/HomeController.cs" Line="105" Column="37" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="basic-auth" expanded="True">
             <Node name="basic-auth" expanded="True">
+              <Node name="AuthorizationRequirements" expanded="True" />
               <Node name="Controllers" expanded="True">
                 <Node name="HomeController.cs" selected="True" />
               </Node>
-              <Node name="Data" expanded="True" />
+              <Node name="Data" expanded="True">
+                <Node name="Enum" expanded="True" />
+              </Node>
               <Node name="Views" expanded="True">
                 <Node name="Home" expanded="True" />
               </Node>

@@ -14,12 +14,16 @@
     <None Remove="Data\" />
     <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <None Remove="NETCore.MailKit" />
+    <None Remove="AuthorizationRequirements\" />
+    <None Remove="Data\Enum\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Views\" />
     <Folder Include="Views\Home\" />
     <Folder Include="Data\" />
+    <Folder Include="AuthorizationRequirements\" />
+    <Folder Include="Data\Enum\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
