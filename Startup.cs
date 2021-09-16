@@ -8,13 +8,24 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 
 namespace basic_auth
 {
     public class Startup
     {
+        private readonly IConfiguration _config;
+
+        // Constructor
+        public Startup(IConfiguration config)
+        {
+            _config = config;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -31,6 +42,7 @@ namespace basic_auth
                 config.Password.RequireDigit = false;
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireUppercase = false;
+                config.SignIn.RequireConfirmedEmail = true;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -40,6 +52,11 @@ namespace basic_auth
                 config.Cookie.Name = "Identity.Cookie";
                 config.LoginPath = "/Home/Login";
             });
+
+            services.AddMailKit(config => {
+                config.UseMailKit(_config.GetSection("Smtp").Get<MailKitOptions>());
+            });
+
             //services.AddAuthentication("CookieAuth")
             //        .AddCookie("CookieAuth", config =>
             //        {

@@ -13,6 +13,7 @@
     <None Remove="Microsoft.EntityFrameworkCore.InMemory" />
     <None Remove="Data\" />
     <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <None Remove="NETCore.MailKit" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -25,5 +26,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.10" />
+    <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
   </ItemGroup>
 </Project>

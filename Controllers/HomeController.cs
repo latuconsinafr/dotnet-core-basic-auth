@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NETCore.MailKit.Core;
 
 namespace basic_auth.Controllers
 {
@@ -14,11 +15,17 @@ namespace basic_auth.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IEmailService _emailService;
 
-        public HomeController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public HomeController(
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            IEmailService emailService
+        )
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -80,15 +87,39 @@ namespace basic_auth.Controllers
                 return UnprocessableEntity();
             }
 
-            // Sign user here
-            var signInResult = await _signInManager.PasswordSignInAsync(user, password, false, false);
+            // Generate the e-mail token
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            if (!signInResult.Succeeded)
+            var link = Url.Action(nameof(VerifyEmail), "Home", new { userId = user.Id, code }, Request.Scheme, Request.Host.ToString());
+            var linkString = $"<a href=\"{link}\">Verify Email</a>";
+
+            try
+            {
+                await _emailService.SendAsync("recipient@dotnet-basic-auth.com", "Email Verification", linkString, true);
+
+                return RedirectToAction("EmailVerification");
+            }
+            catch (Exception e)
             {
                 return RedirectToAction("Index");
             }
+        }
 
-            return RedirectToAction("Index");
+        public IActionResult EmailVerification() => View();
+
+        public async Task<IActionResult> VerifyEmail(string userId, string code)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                return NotFound();
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (!result.Succeeded)
+                return UnprocessableEntity();
+
+            return View();
         }
 
         public async Task<IActionResult> Logout()

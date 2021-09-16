@@ -48,3 +48,9 @@
 /Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/System.Diagnostics.DiagnosticSource.dll
 /Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/obj/Debug/net5.0/Razor/Views/Home/Login.cshtml.g.cs
 /Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/obj/Debug/net5.0/Razor/Views/Home/Register.cshtml.g.cs
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/MailKit.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/MimeKit.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/NETCore.MailKit.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/bin/Debug/net5.0/BouncyCastle.Crypto.dll
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/obj/Debug/net5.0/Razor/Views/Home/EmailVerification.cshtml.g.cs
+/Users/latuconsinafr/Personal/IT/Practices/ASP.NET/apps/basic-auth/obj/Debug/net5.0/Razor/Views/Home/VerifyEmail.cshtml.g.cs
